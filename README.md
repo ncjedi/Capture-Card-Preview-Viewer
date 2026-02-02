@@ -1,4 +1,4 @@
-Run switch_viewer.py. 
+Run switch_viewer.py to start the program. 
 
 The capture card name for audio is hardcoded in find_webcam_mic.
 
