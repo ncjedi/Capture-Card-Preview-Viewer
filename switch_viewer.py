@@ -4,6 +4,7 @@ import threading
 from find_webcam_mic import get_switch_audio
 import win32api
 import time
+from wakepy import keep
 
 def hide_mouse():
     time.sleep(1)
@@ -43,12 +44,14 @@ def audio_preview():
 threading.Thread(target=audio_preview, daemon=True).start()
 
 # 3. Main Loop for Video
-while True:
-    ret, frame = cap.read()
-    if not ret: break
-    cv2.imshow('Webcam Feed', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'): # Press 'q' to exit
-        break
+
+with keep.presenting():
+    while True:
+        ret, frame = cap.read()
+        if not ret: break
+        cv2.imshow('Webcam Feed', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'): # Press 'q' to exit
+            break
 
 cap.release()
 cv2.destroyAllWindows()
